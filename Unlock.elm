@@ -1,5 +1,7 @@
+module Unlock where
+
 import Html exposing (..)
-import Html.Attributes exposing (style)
+import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Signal exposing (mailbox)
 import List exposing (take, reverse)
@@ -29,17 +31,9 @@ btnElem : Signal.Address Int -> Int -> Html
 btnElem address num =
   div
     [ onClick address num
-    , style [ "padding" => "35px 40px"
-            , "display" => "inline-block"
-            , "border" => "1px solid #eee"
-            , "border-radius" => "50px"
-            , "margin" => "5px"
-            , "cursor" => "pointer"
-            , "font-family" => "Helvetica"
-            , "-webkit-user-select" => "none"
-            ]
+    , class "button"
     ]
-    [text (toString num)]
+    [ text (toString num) ]
 
 isCorrect : Model -> Bool
 isCorrect =
@@ -52,21 +46,21 @@ html model =
     btn = btnElem numberMailbox.address
   in
     div []
-          [ div [] [ (btn 1)
-                   , (btn 2)
-                   , (btn 3)
-                   ]
-          , div [] [ (btn 4)
-                   , (btn 5)
-                   , (btn 6)
-                   ]
-          , div [] [ (btn 7)
-                   , (btn 8)
-                   , (btn 9)
-                   ]
-          , div [] [text (toString model)]
-          , div [] [text (toString passCorrect)]
-          ]
+        [ div [] [ (btn 1)
+                 , (btn 2)
+                 , (btn 3)
+                 ]
+        , div [] [ (btn 4)
+                 , (btn 5)
+                 , (btn 6)
+                 ]
+        , div [] [ (btn 7)
+                 , (btn 8)
+                 , (btn 9)
+                 ]
+        , div [] [ text (toString model) ]
+        , div [] [ text (toString passCorrect) ]
+        ]
 
 main : Signal Html
 main =
