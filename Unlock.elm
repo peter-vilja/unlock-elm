@@ -4,7 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (class, style)
 import Html.Events exposing (onClick)
 import Signal exposing (mailbox)
-import List exposing (take, reverse)
+import List exposing (length, repeat, reverse, take)
 
 (=>) = (,)
 
@@ -27,13 +27,30 @@ numbers =
 update : Int -> Model -> Model
 update = (::)
 
-btnElem : Signal.Address Int -> Int -> Html
-btnElem address num =
-  div
-    [ onClick address num
-    , class "button"
-    ]
-    [ text (toString num) ]
+btnElem : Signal.Address Int -> Int -> String -> Html
+btnElem address num letters =
+  let
+    attrs =
+      if num == 1 then [style ["height" => "16px"], class "letters"]
+      else [class "letters"]
+  in
+    div
+      [ onClick address num
+      , class "button"
+      ]
+      [ div [class "content"]
+          [ div [] [text (toString num)]
+          , div attrs [text letters]
+          ]
+      ]
+
+guess : Html
+guess =
+  div [class "guess"] []
+
+guesses : Int -> List Html
+guesses n =
+  repeat n guess
 
 isCorrect : Model -> Bool
 isCorrect =
@@ -45,21 +62,28 @@ html model =
     passCorrect = (isCorrect model)
     btn = btnElem numberMailbox.address
   in
-    div []
-        [ div [] [ (btn 1)
-                 , (btn 2)
-                 , (btn 3)
-                 ]
-        , div [] [ (btn 4)
-                 , (btn 5)
-                 , (btn 6)
-                 ]
-        , div [] [ (btn 7)
-                 , (btn 8)
-                 , (btn 9)
-                 ]
-        , div [] [ text (toString model) ]
-        , div [] [ text (toString passCorrect) ]
+    div [class "passcode"]
+        [ div [class "enter"] [text "Enter Passcode"]
+        , div [class "guesses"]
+            [ div [class "list"] (guesses (length correct))
+            ]
+        , div [class "unlock"]
+            [ div [] [ (btn 1 "")
+                     , (btn 2 "ABC")
+                     , (btn 3 "DEF")
+                     ]
+            , div [] [ (btn 4 "GHI")
+                     , (btn 5 "JKL")
+                     , (btn 6 "MNO")
+                     ]
+            , div [] [ (btn 7 "PQRS")
+                     , (btn 8 "TUV")
+                     , (btn 9 "WXYZ")
+                     ]
+            , div [] [btn 0 ""]
+            , div [] [ text (toString model) ]
+            , div [] [ text (toString passCorrect) ]
+            ]
         ]
 
 main : Signal Html
