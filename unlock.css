@@ -1,7 +1,12 @@
+:root {
+  --guess-color: rgba(255,255,255,.3);
+}
+
 html, body {
   height: 100%;
   padding: 0;
   margin: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
 .main:before {
@@ -24,23 +29,37 @@ html, body {
   justify-content: center;
 
   & .passcode {
-    width: 370px;
+    width: 300px;
     color: #fff;
     text-align: center;
 
     & .enter {
       font-size: 1.3em;
-      margin: 60px 0 20px;
+      margin: 15% 0 10px;
     }
 
     & .guesses {
       display: flex;
       justify-content: center;
-      margin-bottom: 40px;
+      margin-bottom: 20px;
       & .list {
         width: 40%;
         display: flex;
         justify-content: space-around;
+        &.guessed-1 {
+          & .guess:nth-child(1) { background-color: var(--guess-color); }
+        }
+        &.guessed-2 {
+          & .guess:nth-child(-n+2) { background-color: var(--guess-color); }
+        }
+        &.guessed-3 {
+          & .guess:nth-child(-n+3) { background-color: var(--guess-color); }
+        }
+        &.guessed-4 {
+          & .guess:nth-child(-n+4) { background-color: var(--guess-color); }
+        }
+
+
         & .guess {
           width: 14px;
           height: 14px;
@@ -61,13 +80,13 @@ html, body {
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 100px;
-        height: 100px;
+        width: 80px;
+        height: 80px;
         font-size: 42px;
-        font-weight: 100;
+        font-weight: 400;
         border: 2px solid rgba(255,255,255,.3);
         border-radius: 50px;
-        margin: 5px;
+        margin: 3px;
         cursor: pointer;
         user-select: none;
         &:not(:active) {
@@ -77,10 +96,14 @@ html, body {
           background-color: rgba(255,255,255,.1);
         }
 
-        & .letters {
-          font-size: 13px;
-          font-weight: 100;
-          letter-spacing: 2px;
+        & .content {
+          margin-top: -7px;
+
+          & .letters {
+            font-size: 11px;
+            font-weight: 400;
+            letter-spacing: 2px;
+          }
         }
       }
     }

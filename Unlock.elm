@@ -61,11 +61,12 @@ html model =
   let
     passCorrect = (isCorrect model)
     btn = btnElem numberMailbox.address
+    guessClass = "list " ++ "guessed-" ++ (toString (length model))
   in
     div [class "passcode"]
         [ div [class "enter"] [text "Enter Passcode"]
         , div [class "guesses"]
-            [ div [class "list"] (guesses (length correct))
+            [ div [class guessClass] (guesses (length correct))
             ]
         , div [class "unlock"]
             [ div [] [ (btn 1 "")
@@ -81,8 +82,6 @@ html model =
                      , (btn 9 "WXYZ")
                      ]
             , div [] [btn 0 ""]
-            , div [] [ text (toString model) ]
-            , div [] [ text (toString passCorrect) ]
             ]
         ]
 
