@@ -17,7 +17,7 @@ html, body {
   filter: blur(5px) brightness(50%);
   width: 100%;
   height: 100%;
-  background-image: url('background.jpeg');
+  background-image: url('images/background.jpeg');
   background-repeat: no-repeat;
   background-size: cover;
 }
@@ -46,25 +46,16 @@ html, body {
         width: 40%;
         display: flex;
         justify-content: space-around;
-        &.guessed-1 {
-          & .guess:nth-child(1) { background-color: var(--guess-color); }
-        }
-        &.guessed-2 {
-          & .guess:nth-child(-n+2) { background-color: var(--guess-color); }
-        }
-        &.guessed-3 {
-          & .guess:nth-child(-n+3) { background-color: var(--guess-color); }
-        }
-        &.guessed-4 {
-          & .guess:nth-child(-n+4) { background-color: var(--guess-color); }
-        }
-
 
         & .guess {
           width: 14px;
           height: 14px;
           border: 1px solid rgba(255,255,255,.4);
           border-radius: 10px;
+          &.guessed {
+            transition: background-color .2s ease-in;
+            background-color: var(--guess-color);
+          }
         }
       }
     }
@@ -105,6 +96,40 @@ html, body {
             letter-spacing: 2px;
           }
         }
+      }
+    }
+  }
+
+  & .welcome {
+    width: 300px;
+    margin-top: 50px;
+
+    & .title {
+      color: #fff;
+      font-size: 2em;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    & .links {
+      display: flex;
+      justify-content: space-around;
+
+      & .elm, & .github {
+        width: 120px;
+        height: 120px;
+        background-repeat: no-repeat;
+        background-size: cover;
+        cursor: pointer;
+        display: block;
+      }
+
+      & .elm {
+        background-image: url('images/elm.png');
+      }
+      & .github {
+        background-image: url('images/github.png');
       }
     }
   }

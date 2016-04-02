@@ -12,7 +12,7 @@ Unlock the power of the Elm language.
     $ postcss -u postcss-cssnext -o bundle.css -w unlock.css unlock.css
     $ elm-live Unlock.elm --output=elm.js
 
-Open localhost:8000
+Open *localhost:8000*
 
 ## License
 
