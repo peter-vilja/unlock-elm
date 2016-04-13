@@ -22,6 +22,10 @@ html, body {
   background-size: cover;
 }
 
+.hide {
+  display: none !important;
+}
+
 .main {
   font-family: 'Lato', 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial;
   display: flex;
@@ -96,6 +100,15 @@ html, body {
             letter-spacing: 2px;
           }
         }
+
+
+      }
+
+      & .del {
+        justify-content: flex-end;
+        margin-right: 6%;
+        cursor: pointer;
+        user-select: none;
       }
     }
   }

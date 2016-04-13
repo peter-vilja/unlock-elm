@@ -1,7 +1,7 @@
 module Unlock where
 
 import Html exposing (..)
-import Html.Attributes exposing (class, href, style)
+import Html.Attributes exposing (class, classList, href, style)
 import Html.Events exposing (onClick)
 import Signal exposing (filter, mailbox, map, merge)
 import List exposing (length, repeat, reverse, take)
@@ -16,7 +16,8 @@ type alias Model =
   , guess : Passcode
   }
 
-type Action = Guess Int | LastGuess Int | PassOrReset
+type Action =
+  Guess Int | LastGuess Int | PassOrReset | Delete
 
 init : Model
 init =
@@ -53,11 +54,20 @@ numbers : Signal Model
 numbers =
   Signal.foldp update init actions
 
+listInit : List a -> List a
+listInit list =
+  take ((length list) - 1) list
+
 update : Action -> Model -> Model
 update action model =
   case action of
+    Delete ->
+      {model | guess = listInit model.guess}
+
     Guess num ->
-      {model | guess = num :: model.guess}
+      if (length model.guess) > ((length correct) - 1)
+      then model
+      else {model | guess = num :: model.guess}
 
     LastGuess num ->
       {model | guess = num :: model.guess}
@@ -78,10 +88,9 @@ btnElem act address num letters =
       [ onClick address (act num)
       , class "button"
       ]
-      [ div [class "content"]
-          [ div [] [text (toString num)]
-          , div attrs [text letters]
-          ]
+      [ div [class "content"] [ div [] [text (toString num)]
+                              , div attrs [text letters]
+                              ]
       ]
 
 guess : Html
@@ -107,11 +116,12 @@ passcode model =
   let
     act = chooseAction model.guess
     btn = btnElem act numMb.address
+    modelL = length model.guess
   in
     div [class "passcode"]
         [ div [class "enter"] [text "Enter Passcode"]
         , div [class "guesses"]
-            [ div [class "list"] (guesses (length correct) (length model.guess)) ]
+            [ div [class "list"] (guesses (length correct) modelL) ]
         , div [class "unlock"]
             [ div [] [ (btn 1 "")
                      , (btn 2 "ABC")
@@ -126,6 +136,14 @@ passcode model =
                      , (btn 9 "WXYZ")
                      ]
             , div [] [btn 0 ""]
+            , div
+                [ onClick numMb.address Delete
+                , classList [
+                    ("del", True),
+                    ("hide", modelL == 0)
+                  ]
+                ]
+                [text "Delete"]
             ]
         ]
 
