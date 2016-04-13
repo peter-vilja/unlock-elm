@@ -11,7 +11,8 @@
     <div id="main" class="main"></div>
     <script type="text/javascript" src="elm.js"></script>
     <script type="text/javascript">
-      Elm.embed(Elm.Unlock, document.getElementById('main'));
+      const random = (min, max) => Math.floor(Math.random() * (max - min)) + min;
+      Elm.embed(Elm.Unlock, document.getElementById('main'), {randomSeed: random(10000, 1000000)});
     </script>
   </body>
 </html>

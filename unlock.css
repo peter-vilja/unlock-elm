@@ -110,6 +110,10 @@ html, body {
         cursor: pointer;
         user-select: none;
       }
+
+      & .correct {
+        margin-top: 50px;
+      }
     }
   }
 

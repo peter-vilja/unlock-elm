@@ -3,8 +3,9 @@ module Unlock where
 import Html exposing (..)
 import Html.Attributes exposing (class, classList, href, style)
 import Html.Events exposing (onClick)
-import Signal exposing (filter, mailbox, map, merge)
 import List exposing (length, repeat, reverse, take)
+import Random exposing (generate, initialSeed, int, list)
+import Signal exposing (filter, mailbox, map, merge)
 import Time exposing (delay, second)
 
 (=>) = (,)
@@ -19,17 +20,27 @@ type alias Model =
 type Action =
   Guess Int | LastGuess Int | PassOrReset | Delete
 
+port randomSeed : Int
+
 init : Model
 init =
   { correct = False, guess = [] }
 
+randomLength : Int
+randomLength =
+  initialSeed randomSeed
+    |> generate (int 4 6)
+    |> fst
+
 correct : Passcode
 correct =
-  [1, 2, 3, 4]
+  initialSeed randomSeed
+    |> generate (list randomLength (int 0 9))
+    |> fst
 
 isCorrect : Passcode -> Bool
 isCorrect =
-  (==) correct << reverse << take 4
+  (==) correct << reverse << take (length correct)
 
 numMb : Signal.Mailbox Action
 numMb = mailbox (Guess 0)
@@ -107,7 +118,7 @@ guesses n m =
 
 chooseAction : List Int -> Int -> Action
 chooseAction guess =
-  if length guess == 3
+  if length guess == ((length correct) - 1)
   then LastGuess
   else Guess
 
@@ -144,6 +155,7 @@ passcode model =
                   ]
                 ]
                 [text "Delete"]
+            , div [class "correct"] [text ("Psst. correct passcode is " ++ (toString correct))]
             ]
         ]
 
