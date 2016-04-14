@@ -20,7 +20,7 @@ type alias Model =
 type Action =
   Guess Int | LastGuess Int | PassOrReset | Delete
 
-port randomSeed : Int
+port currentTime : Int
 
 init : Model
 init =
@@ -28,13 +28,17 @@ init =
 
 randomLength : Int
 randomLength =
-  initialSeed randomSeed
+  initialSeed currentTime
+    |> generate (int 4 6)
+    |> snd
     |> generate (int 4 6)
     |> fst
 
 correct : Passcode
 correct =
-  initialSeed randomSeed
+  initialSeed currentTime
+    |> generate (list randomLength (int 0 9))
+    |> snd
     |> generate (list randomLength (int 0 9))
     |> fst
 
