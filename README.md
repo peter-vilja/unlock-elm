@@ -14,6 +14,8 @@ Unlock the power of the Elm language.
 
 Open *localhost:8000*
 
+![unlock-elm](images/screenshot.png)
+
 ## License
 
 [MIT](http://en.wikipedia.org/wiki/MIT_License) @ Peter Vilja
